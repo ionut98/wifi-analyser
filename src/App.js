@@ -1,5 +1,5 @@
 import './App.css';
-import NetworksList from './NetworksList';
+import NetworksList from './components/NetworksList';
 
 function App() {
   return (
