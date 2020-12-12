@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
-import PropTypes from 'prop-types';
-import { Grid, List, makeStyles, Typography } from '@material-ui/core';
+import { CircularProgress, Grid, List, makeStyles, Typography } from '@material-ui/core';
 import Item from './Item';
+
+import Websocket from 'react-websocket';
 
 const useStyles = makeStyles({
   container: {
@@ -49,83 +50,28 @@ const ItemsList = () => {
 
   const classes = useStyles();
 
-  const [networksList, setNetworksList] = useState([
-    {
-      ssid: "SSID1",
-      signal: -40,
-      quality: 65,
-      frequency: 2462,
-      security: "WPA2-PSK-CCMP,ESS",
-      apMAC: "20:cf:30:01:01:01",
-      channel: 1,
-      manufacturer: 'Fiberhome Telecommunication Technologies Co.,LTD',
-      maxQuality: 70,
-      mode: 'Master',
-    },
-    {
-      ssid: "SSID2",
-      signal: -75,
-      quality: 32,
-      frequency: 2462,
-      security: "WPA2-PSK-CCMP,ESS",
-      apMAC: "bc:14:01:05:05:05",
-      channel: 2,
-      manufacturer: 'Fiberhome Telecommunication Technologies Co.,LTD',
-      maxQuality: 70,
-      mode: 'Master',
-    },    
-    {
-      ssid: "SSID21",
-      signal: -75,
-      quality: 32,
-      frequency: 2462,
-      security: "WPA2-PSK-CCMP,ESS",
-      apMAC: "bc:14:01:05:05:05",
-      channel: 2,
-      manufacturer: 'TP Link',
-      maxQuality: 70,
-      mode: 'Master',
-    },
-    {
-      ssid: "SSID3",
-      signal: -86,
-      quality: 20,
-      frequency: 2462,
-      security: "WPA2-PSK-CCMP,ESS",
-      apMAC: "68:bf:fc:07:07:07",
-      channel: 3,
-      manufacturer: 'Fiberhome Telecommunication Technologies Co.,LTD',
-      maxQuality: 70,
-      mode: 'Master',
-    },
-    {
-      ssid: "SSID4",
-      signal: -65,
-      quality: 35,
-      frequency: 2462,
-      security: "WPA2-PSK-CCMP,ESS",
-      apMAC: "20:cf:30:01:01:01",
-      channel: 4,
-      manufacturer: 'ASUS',
-      maxQuality: 70,
-      mode: 'Master',
-    },
-    {
-      ssid: "SSID5",
-      signal: -57,
-      quality: 40,
-      frequency: 2462,
-      security: "WPA2-PSK-CCMP+TKIP,ESS,WPP",
-      apMAC: "20:cf:30:01:01:01",
-      channel: 5,
-      manufacturer: 'Fiberhome Telecommunication Technologies Co.,LTD',
-      maxQuality: 70,
-      mode: 'Master',
-    },
-  ]);
+  const [networksList, setNetworksList] = useState([]);
+
+  const handleOnMessage = (message) => {
+    const parsedData = JSON.parse(message);
+    const {
+      wifi,
+    } = parsedData;
+
+    if(wifi.length) {
+      setNetworksList(
+        wifi.sort((network1, network2) => network2.quality - network1.quality)
+      );
+    }
+  }
 
   return (
-    <Grid container className={classes.container}>
+    <>
+      <Websocket
+        url='ws://localhost:9002'
+        onMessage={handleOnMessage}
+      />
+      <Grid container className={classes.container}>
       <Grid item xs={12} className={classes.centeredTitle}>
         <Typography variant='h5' className={classes.title}>
           Wireless Networks
@@ -135,8 +81,11 @@ const ItemsList = () => {
         <List
           className={classes.list} 
         >
-          {
-            networksList.map((network, index) => (
+          { !networksList.length ? 
+              <Grid item className={classes.centered}>
+                <CircularProgress size={30} style={{ color: '#fff' }}/>
+              </Grid> 
+            : networksList.map((network, index) => (
               <Item 
                 network={network}
                 key={index}
@@ -146,11 +95,8 @@ const ItemsList = () => {
         </List>
       </Grid>
     </Grid>
+    </>
   );
-
-};
-
-ItemsList.propTypes = { 
 
 };
 
