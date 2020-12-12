@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import PropTypes from 'prop-types';
 import {
@@ -40,8 +40,8 @@ const NetworkItem = ({
     signal,
     quality,
     frequency,
-    security,
-    apMAC,
+    encryption,
+    macAddress,
     channel,
     maxQuality,
     manufacturer,
@@ -49,7 +49,7 @@ const NetworkItem = ({
   } = network;
 
   const computeSignalColor = (signal) => 
-    signal < -80
+    Number(signal) < -80
     ? '#000'
     : signal < -70
     ? 'red'
@@ -65,7 +65,7 @@ const NetworkItem = ({
         width: 300,
       }}>
         <Grid item xs={12} style={{ fontFamily: 'arial', color: '#fff' }}>
-          <span style={{ fontWeight: 'bolder' }}>{ssid}</span> ({apMAC})
+          <span style={{ fontWeight: 'bolder' }}>{ssid}</span> ({macAddress})
         </Grid>
         <Grid item container xs={3} className={classes.centered}>
           <Grid item xs={12} className={classes.centered} style={{
@@ -89,16 +89,22 @@ const NetworkItem = ({
             {manufacturer}
           </Grid>
           <Grid item xs={12} className={classes.centeredLeft}>
-            <Lock style={{
-              color: '#333'
-            }} /> 
-            <span style={{
-              color: '#eee'
-            }}>
-              {
-                security.split(',').map((element) => <i>{`[${element}]`}</i>) 
-              }
-            </span> 
+            { encryption && encryption.isEncrypted &&
+              <> 
+                <Lock
+                  style={{
+                    color: '#333'
+                  }} 
+                /> 
+                <span style={{
+                  color: '#eee'
+                }}>
+                  {
+                    encryption.encryption.map((element) => <i>{`[${element}]`}</i>) 
+                  }
+                </span>
+              </>
+            }
           </Grid>
         </Grid>
       </Grid>
