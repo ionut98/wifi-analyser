@@ -52,15 +52,15 @@ const Item = ({
     mode,
   } = network;
 
-  const computeSignalColor = (signal) => 
-    Number(signal) < -80
+  const computeSignalColor = (quality) => 
+    quality < 0.21
     ? '#000'
-    : signal < -70
+    : quality < 0.41
     ? 'red'
-    : signal < -60
+    : quality < 0.61
     ? 'orange'
-    : signal < -50
-    ? '#dadf1e'
+    : quality < 0.81
+    ? 'yellow'
     : 'green';
 
   return (
@@ -71,12 +71,12 @@ const Item = ({
         </Grid>
         <Grid item container xs={3} className={classes.centered}>
           <Grid item xs={12} className={classes.centered} style={{
-            color: computeSignalColor(signal)
+            color: computeSignalColor(Number(quality) / Number(maxQuality))
           }}>
             {signal}dBm
           </Grid>
           <Grid item xs={12} className={classes.centered}>
-            <SignalIcon signal={Number(signal)}/>
+            <SignalIcon signal={Number(quality) / Number(maxQuality)}/>
           </Grid>
         </Grid>
         <Grid item xs={9}>
