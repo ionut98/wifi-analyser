@@ -1,9 +1,9 @@
 import './App.css';
-import NetworksList from './components/NetworksList';
+import ItemsList from './components/ItemsList';
 
 function App() {
   return (
-    <NetworksList />
+    <ItemsList />
   );
 }
 

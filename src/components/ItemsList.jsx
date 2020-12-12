@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
-import { Grid, List, ListSubheader, makeStyles, Typography } from '@material-ui/core';
-import NetworkItem from './NetworkItem';
+import { Grid, List, makeStyles, Typography } from '@material-ui/core';
+import Item from './Item';
 
 const useStyles = makeStyles({
+  container: {
+    marginTop: 10,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor:'#fff',
+    borderRadius: 10,
+    width: 380,
+  },
   list: {
-    maxHeight: 500,
+    maxHeight: window.innerHeight - 100,
     overflow: 'auto',
     '&::-webkit-scrollbar': {
       display: 'none',
     },
     '-ms-overflow-style': 'none',
     scrollbarWidth: 'none',
+    backgroundColor: '#ddd',
   },
   title: {
-    fontFamily: 'monospace',
-    color: '#fff',
+    fontFamily: 'Cambria',
+    color: '#000',
     marginTop: 30,
     marginBottom: 10,
   },
@@ -24,10 +34,18 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  centeredTitle: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ddd',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   }
 });
 
-const NetworksList = () => {
+const ItemsList = () => {
 
   const classes = useStyles();
 
@@ -35,63 +53,81 @@ const NetworksList = () => {
     {
       ssid: "SSID1",
       signal: -40,
-      quality: "quality1",
+      quality: 65,
       frequency: 2462,
       security: "WPA2-PSK-CCMP,ESS",
       apMAC: "20:cf:30:01:01:01",
       channel: 1,
+      manufacturer: 'Fiberhome Telecommunication Technologies Co.,LTD',
+      maxQuality: 70,
+      mode: 'Master',
     },
     {
       ssid: "SSID2",
       signal: -75,
-      quality: "quality2",
+      quality: 32,
       frequency: 2462,
       security: "WPA2-PSK-CCMP,ESS",
       apMAC: "bc:14:01:05:05:05",
       channel: 2,
+      manufacturer: 'Fiberhome Telecommunication Technologies Co.,LTD',
+      maxQuality: 70,
+      mode: 'Master',
     },    
     {
       ssid: "SSID21",
       signal: -75,
-      quality: "quality2",
+      quality: 32,
       frequency: 2462,
       security: "WPA2-PSK-CCMP,ESS",
       apMAC: "bc:14:01:05:05:05",
       channel: 2,
+      manufacturer: 'TP Link',
+      maxQuality: 70,
+      mode: 'Master',
     },
     {
       ssid: "SSID3",
       signal: -86,
-      quality: "quality3",
+      quality: 20,
       frequency: 2462,
       security: "WPA2-PSK-CCMP,ESS",
       apMAC: "68:bf:fc:07:07:07",
       channel: 3,
+      manufacturer: 'Fiberhome Telecommunication Technologies Co.,LTD',
+      maxQuality: 70,
+      mode: 'Master',
     },
     {
       ssid: "SSID4",
       signal: -65,
-      quality: "quality4",
+      quality: 35,
       frequency: 2462,
       security: "WPA2-PSK-CCMP,ESS",
       apMAC: "20:cf:30:01:01:01",
       channel: 4,
+      manufacturer: 'ASUS',
+      maxQuality: 70,
+      mode: 'Master',
     },
     {
       ssid: "SSID5",
       signal: -57,
-      quality: "quality5",
+      quality: 40,
       frequency: 2462,
       security: "WPA2-PSK-CCMP+TKIP,ESS,WPP",
       apMAC: "20:cf:30:01:01:01",
       channel: 5,
+      manufacturer: 'Fiberhome Telecommunication Technologies Co.,LTD',
+      maxQuality: 70,
+      mode: 'Master',
     },
   ]);
 
   return (
-    <Grid container className={classes.centered}>
-      <Grid item xs={12} className={classes.centered}>
-        <Typography variant='h4' className={classes.title}>
+    <Grid container className={classes.container}>
+      <Grid item xs={12} className={classes.centeredTitle}>
+        <Typography variant='h5' className={classes.title}>
           Wireless Networks
         </Typography>
       </Grid>
@@ -101,7 +137,7 @@ const NetworksList = () => {
         >
           {
             networksList.map((network, index) => (
-              <NetworkItem 
+              <Item 
                 network={network}
                 key={index}
               />
@@ -114,8 +150,8 @@ const NetworksList = () => {
 
 };
 
-NetworksList.propTypes = { 
+ItemsList.propTypes = { 
 
 };
 
-export default NetworksList;
+export default ItemsList;

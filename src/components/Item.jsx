@@ -7,14 +7,18 @@ import {
   makeStyles,
 } from '@material-ui/core';
 
-import SignalImage from './SignalImage';
+import SignalIcon from './SignalIcon';
 import { Lock } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   listItem: {
-    borderBottom: '1px solid white',
-    fontFamily: 'Arial',
+    margin: 5,
+    border: '1px solid gray',
+    fontFamily: 'calibri',
     fontSize: 15,
+    borderRadius: 10,
+    width: 370,
+    backgroundColor: '#fff',
   },
   centeredLeft: {
     display: 'flex',
@@ -28,7 +32,7 @@ const useStyles = makeStyles({
   }
 });
 
-const NetworkItem = ({
+const Item = ({
   network,
   key,
 }) => {
@@ -43,6 +47,9 @@ const NetworkItem = ({
     security,
     apMAC,
     channel,
+    maxQuality,
+    manufacturer,
+    mode,
   } = network;
 
   const computeSignalColor = (signal) => 
@@ -58,10 +65,8 @@ const NetworkItem = ({
 
   return (
     <ListItem className={classes.listItem} key={key}>
-      <Grid container spacing={1} style={{
-        width: 300,
-      }}>
-        <Grid item xs={12} style={{ fontFamily: 'arial', color: '#fff' }}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} style={{ fontFamily: 'arial', color: '#000' }}>
           <span style={{ fontWeight: 'bolder' }}>{ssid}</span> ({apMAC})
         </Grid>
         <Grid item container xs={3} className={classes.centered}>
@@ -71,23 +76,29 @@ const NetworkItem = ({
             {signal}dBm
           </Grid>
           <Grid item xs={12} className={classes.centered}>
-            <SignalImage signal={signal}/>
+            <SignalIcon signal={signal}/>
           </Grid>
         </Grid>
         <Grid item xs={9}>
-          <Grid item xs={12} style={{ color: '#fff' }}>
-            CH <span style={{ color: '#81d4fa' }}>{channel}</span> {frequency}MHz <br />
-            {quality}
+          <Grid item xs={12} style={{ color: '#000' }}>
+            CH <span style={{ color: '#002171' }}>{channel}</span> {frequency}MHz <br />
+            Quality: {quality}/{maxQuality}
+          </Grid>
+          <Grid item xs={12} style={{ color: '#000' }}>
+            Mode: {mode}
+          </Grid>
+          <Grid item xs={12} style={{ color: '#000' }}>
+            {manufacturer}
           </Grid>
           <Grid item xs={12} className={classes.centeredLeft}>
             <Lock style={{
               color: '#333'
             }} /> 
             <span style={{
-              color: '#eee'
+              color: '#000'
             }}>
               {
-                security.split(',').map((element) => <i>{`[${element}]`}</i>) 
+                security.split(',').map((element) => `[${element}]`) 
               }
             </span> 
           </Grid>
@@ -98,9 +109,9 @@ const NetworkItem = ({
 
 };
 
-NetworkItem.propTypes = { 
+Item.propTypes = { 
   network: PropTypes.object.isRequired,
   key: PropTypes.number,
 };
 
-export default NetworkItem;
+export default Item;

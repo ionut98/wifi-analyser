@@ -8,7 +8,7 @@ import signal2lines from './2lines.png';
 import signal3lines from './3lines.png';
 import signal4lines from './4lines.png';
 
-const SignalImage = ({
+const SignalIcon = ({
   signal,
 }) => {
 
@@ -25,16 +25,16 @@ const SignalImage = ({
         ? signal3lines
         : signal4lines
       }
-      width={35}
-      height={30}
+      width={40}
+      height={35}
       alt='signal value representation'
     /> 
   );
 
 };
 
-SignalImage.propTypes = {
+SignalIcon.propTypes = {
   signal: PropTypes.number.isRequired,
 };
 
-export default SignalImage;
+export default SignalIcon;
