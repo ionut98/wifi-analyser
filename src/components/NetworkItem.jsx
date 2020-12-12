@@ -43,6 +43,9 @@ const NetworkItem = ({
     security,
     apMAC,
     channel,
+    maxQuality,
+    manufacturer,
+    mode,
   } = network;
 
   const computeSignalColor = (signal) => 
@@ -77,7 +80,13 @@ const NetworkItem = ({
         <Grid item xs={9}>
           <Grid item xs={12} style={{ color: '#fff' }}>
             CH <span style={{ color: '#81d4fa' }}>{channel}</span> {frequency}MHz <br />
-            {quality}
+            <span style={{ color: '#81d4fa' }}>Quality:</span> {quality}/{maxQuality}
+          </Grid>
+          <Grid item xs={12} style={{ color: '#fff' }}>
+            <span style={{ color: '#81d4fa' }}>Mode:</span> {mode}
+          </Grid>
+          <Grid item xs={12} style={{ color: '#fff' }}>
+            {manufacturer}
           </Grid>
           <Grid item xs={12} className={classes.centeredLeft}>
             <Lock style={{
