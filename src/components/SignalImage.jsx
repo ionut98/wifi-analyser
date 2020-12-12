@@ -15,13 +15,13 @@ const SignalImage = ({
   return (
     <img 
       src={
-        signal < -80
+        signal < 0.21
         ? noSignal
-        : signal < -70
+        : signal < 0.41
         ? signal1line
-        : signal < -60
+        : signal < 0.61
         ? signal2lines
-        : signal < -50
+        : signal < 0.81
         ? signal3lines
         : signal4lines
       }

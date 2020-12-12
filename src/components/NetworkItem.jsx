@@ -30,7 +30,6 @@ const useStyles = makeStyles({
 
 const NetworkItem = ({
   network,
-  key,
 }) => {
 
   const classes = useStyles();
@@ -48,19 +47,19 @@ const NetworkItem = ({
     mode,
   } = network;
 
-  const computeSignalColor = (signal) => 
-    Number(signal) < -80
+  const computeSignalColor = (quality) => 
+    quality < 0.21
     ? '#000'
-    : signal < -70
+    : quality < 0.41
     ? 'red'
-    : signal < -60
+    : quality < 0.61
     ? 'orange'
-    : signal < -50
+    : quality < 0.81
     ? 'yellow'
-    : 'green';
+    : 'green'; 
 
   return (
-    <ListItem className={classes.listItem} key={key}>
+    <ListItem className={classes.listItem}>
       <Grid container spacing={1} style={{
         width: 300,
       }}>
@@ -69,17 +68,17 @@ const NetworkItem = ({
         </Grid>
         <Grid item container xs={3} className={classes.centered}>
           <Grid item xs={12} className={classes.centered} style={{
-            color: computeSignalColor(signal)
+            color: computeSignalColor(Number(quality) / Number(maxQuality))
           }}>
             {signal}dBm
           </Grid>
           <Grid item xs={12} className={classes.centered}>
-            <SignalImage signal={signal}/>
+            <SignalImage signal={Number(quality) / Number(maxQuality)}/>
           </Grid>
         </Grid>
         <Grid item xs={9}>
           <Grid item xs={12} style={{ color: '#fff' }}>
-            CH <span style={{ color: '#81d4fa' }}>{channel}</span> {frequency}MHz <br />
+            CH <span style={{ color: '#81d4fa' }}>{channel}</span> {frequency}GHz <br />
             <span style={{ color: '#81d4fa' }}>Quality:</span> {quality}/{maxQuality}
           </Grid>
           <Grid item xs={12} style={{ color: '#fff' }}>
@@ -115,7 +114,6 @@ const NetworkItem = ({
 
 NetworkItem.propTypes = { 
   network: PropTypes.object.isRequired,
-  key: PropTypes.number,
 };
 
 export default NetworkItem;
